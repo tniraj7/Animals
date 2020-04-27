@@ -7,7 +7,7 @@ import com.example.animals.model.Animal
 
 class ListViewModel(application: Application): AndroidViewModel(application) {
 
-    val animals by lazy  { MutableLiveData<List<Animal>>() }
+    val animals by lazy { MutableLiveData<ArrayList<Animal>>() }
     val loadError by lazy { MutableLiveData<Boolean>() }
     val loading by lazy { MutableLiveData<Boolean>() }
 
