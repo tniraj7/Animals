@@ -11,7 +11,7 @@ apply plugin: 'androidx.navigation.safeargs'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.devtides.animals"
+        applicationId "com.example.animals"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1
