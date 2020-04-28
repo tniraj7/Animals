@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animals.R
 import com.example.animals.model.Animal
+import com.example.animals.utils.getProgressDrawable
+import com.example.animals.utils.loadImage
 
 
 class AnimalListAdapter( private val animalsList: ArrayList<Animal>):
@@ -35,6 +37,7 @@ class AnimalListAdapter( private val animalsList: ArrayList<Animal>):
             val animalImageView = itemView.findViewById<ImageView?>(R.id.animalImage)
             val animalText = itemView.findViewById<TextView?>(R.id.animalName)
 
+            animalImageView?.loadImage(animal.imageUrl, getProgressDrawable(itemView.context))
             animalText?.text = animal.name
         }
     }
