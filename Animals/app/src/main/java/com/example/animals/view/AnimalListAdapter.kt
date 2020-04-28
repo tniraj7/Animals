@@ -39,9 +39,9 @@ class AnimalListAdapter( private val animalsList: ArrayList<Animal>):
         }
     }
 
-    fun updateAnimalList(newAnimalList: ArrayList<Animal>) {
+    fun updateAnimalList(newAnimalList: List<Animal>) {
         animalsList.clear()
-        animalsList.addAll(animalsList)
+        animalsList.addAll(newAnimalList )
         notifyDataSetChanged()
     }
 }
