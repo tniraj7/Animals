@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.animals.model.Animal
 import com.example.animals.model.AnimalAPIService
 import com.example.animals.model.ApiKey
+import com.example.animals.utils.SharedPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
@@ -20,9 +21,21 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
     private val disposable = CompositeDisposable()
     private val apiService = AnimalAPIService()
 
+    private val prefs = SharedPreferencesHelper(getApplication())
+
+    private var invalidAPIKey = false
+
+
     fun refresh() {
         loading.value = true
-        getKey()
+        invalidAPIKey = false
+        val key = prefs.getAPIKey()
+
+        if (key.isNullOrEmpty()) {
+            getKey()
+        } else {
+            getAnimals(key)
+        }
     }
 
     private fun getKey() {
@@ -37,6 +50,7 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
                             loading.value = false
                         } else {
                             getAnimals(key.key)
+                            prefs.saveAPIKey(key.key)
                         }
                     }
 
@@ -47,6 +61,11 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
                     }
                 })
         )
+    }
+
+    fun hardRefresh() {
+        loading.value = true
+        getKey()
     }
 
     private fun getAnimals(key: String) {
@@ -63,10 +82,16 @@ class ListViewModel(application: Application): AndroidViewModel(application) {
                     }
 
                     override fun onError(e: Throwable) {
-                        e.printStackTrace()
-                        loading.value = false
-                        animals.value = null
-                        loadError.value = true
+
+                        if (!invalidAPIKey) {
+                            invalidAPIKey = true
+                            getKey()
+                        } else {
+                            e.printStackTrace()
+                            loading.value = false
+                            animals.value = null
+                            loadError.value = true
+                        }
                     }
                 })
         )
