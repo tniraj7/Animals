@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-
 import com.example.animals.R
 import com.example.animals.model.Animal
 import com.example.animals.view_model.ListViewModel
@@ -21,11 +20,11 @@ class ListFragment : Fragment() {
     private  lateinit var viewModel: ListViewModel
     private var listAdapter = AnimalListAdapter(arrayListOf())
 
-    private val animalListDataObserver = Observer<ArrayList<Animal>> { list ->
+    private val animalListDataObserver = Observer<List<Animal>> { list ->
 
         list?.let {
             animalList.visibility = View.VISIBLE
-            listAdapter?.updateAnimalList(list)
+            listAdapter.updateAnimalList(it)
         }
     }
 
@@ -59,11 +58,20 @@ class ListFragment : Fragment() {
         viewModel.animals.observe(this, animalListDataObserver)
         viewModel.loading.observe( this, loadingLiveDataObserver)
         viewModel.loadError.observe(this, errorLiveDataObserver)
-
         viewModel.refresh()
+
         animalList.apply {
             this.layoutManager = GridLayoutManager(context, 2)
-            adapter = listAdapter
+            this.adapter = listAdapter
+        }
+
+        refreshLayout.setOnRefreshListener {
+            animalList.visibility = View.GONE
+            listError.visibility = View.GONE
+            loadingView.visibility = View.VISIBLE
+
+            viewModel.hardRefresh()
+            refreshLayout.isRefreshing = false
         }
     }
 }
