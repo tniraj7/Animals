@@ -70,7 +70,7 @@ class ListFragment : Fragment() {
             listError.visibility = View.GONE
             loadingView.visibility = View.VISIBLE
 
-            viewModel.hardRefresh()
+            viewModel.refresh()
             refreshLayout.isRefreshing = false
         }
     }

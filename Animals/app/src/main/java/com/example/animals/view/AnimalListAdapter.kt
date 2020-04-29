@@ -5,18 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animals.R
 import com.example.animals.model.Animal
 import com.example.animals.utils.getProgressDrawable
 import com.example.animals.utils.loadImage
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_animal.view.*
 
 
 class AnimalListAdapter( private val animalsList: ArrayList<Animal>):
