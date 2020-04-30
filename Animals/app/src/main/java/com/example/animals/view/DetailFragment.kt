@@ -8,29 +8,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
+import androidx.databinding.DataBindingUtil
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-
 import com.example.animals.R
+import com.example.animals.databinding.FragmentDetailBinding
 import com.example.animals.model.Animal
-import com.example.animals.utils.getProgressDrawable
-import com.example.animals.utils.loadImage
-import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.item_animal.*
 
 class DetailFragment : Fragment() {
 
     var animal: Animal? = null
+    private lateinit var dataBinding: FragmentDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,22 +38,16 @@ class DetailFragment : Fragment() {
             animal = DetailFragmentArgs.fromBundle(it).animal
         }
 
-        context?.let {
-            animalImageView.loadImage(animal?.imageUrl, getProgressDrawable(it))
-        }
-
-        animalLifeSpan.text = animal?.lifeSpan
-        animalDiet.text = animal?.diet
-        animalLocation.text = animal?.location
-        animalNameText.text = animal?.name
 
         animal?.imageUrl?.let {
             setupBackgroundColor(it)
         }
 
+        dataBinding.animal = animal
+
     }
 
-    private fun setupBackgroundColor(url : String) {
+    private fun setupBackgroundColor(url: String) {
         Glide.with(this)
             .asBitmap()
             .load(url)
@@ -69,7 +61,7 @@ class DetailFragment : Fragment() {
                         .generate() { palette: Palette? ->
 
                             val intColor = palette?.lightMutedSwatch?.rgb ?: 0
-                            animalDetailLayout.setBackgroundColor(intColor)
+                            dataBinding.animalDetailLayout.setBackgroundColor(intColor)
                         }
                 }
             })
