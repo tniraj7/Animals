@@ -16,6 +16,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.animals.R
 import com.example.animals.databinding.FragmentDetailBinding
 import com.example.animals.model.Animal
+import com.example.animals.model.AnimalPalette
 
 class DetailFragment : Fragment() {
 
@@ -61,7 +62,7 @@ class DetailFragment : Fragment() {
                         .generate() { palette: Palette? ->
 
                             val intColor = palette?.lightMutedSwatch?.rgb ?: 0
-                            dataBinding.animalDetailLayout.setBackgroundColor(intColor)
+                            dataBinding.palette = AnimalPalette(intColor)
                         }
                 }
             })

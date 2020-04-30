@@ -9,13 +9,17 @@
             name="animal"
             type="com.example.animals.model.Animal" />
 
+        <variable
+            name="palette"
+            type="com.example.animals.model.AnimalPalette" />
+
     </data>
 
     <LinearLayout
-        android:id="@+id/animalDetailLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
+        android:background="@{palette.color}"
         android:orientation="vertical"
         tools:context=".view.DetailFragment">
 
