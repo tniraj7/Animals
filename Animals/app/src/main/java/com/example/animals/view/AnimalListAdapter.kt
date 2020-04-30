@@ -3,50 +3,42 @@ package com.example.animals.view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.animals.R
+import com.example.animals.databinding.ItemAnimalBinding
 import com.example.animals.model.Animal
-import com.example.animals.utils.getProgressDrawable
-import com.example.animals.utils.loadImage
 
 
 class AnimalListAdapter( private val animalsList: ArrayList<Animal>):
-    RecyclerView.Adapter<AnimalListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<AnimalListAdapter.ViewHolder>(), AnimalClickListener {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
 
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_animal, parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val view = DataBindingUtil.inflate<ItemAnimalBinding>(inflater, R.layout.item_animal, parent, false)
         return  ViewHolder(view)
     }
 
     override fun getItemCount(): Int  = animalsList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindView(animalsList[position])
+        holder.view.animal = animalsList[position]
+        holder.view.clickListener = this
 
     }
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(var view: ItemAnimalBinding): RecyclerView.ViewHolder(view.root)
 
-        fun bindView(animal: Animal) {
-
-            val animalLayout = itemView.findViewById<ConstraintLayout?>(R.id.animalLayout)
-            val animalImageView = itemView.findViewById<ImageView?>(R.id.animalImage)
-            val animalText = itemView.findViewById<TextView?>(R.id.animalName)
-
-            animalImageView?.loadImage(animal.imageUrl, getProgressDrawable(itemView.context))
-            animalText?.text = animal.name
-
-            animalLayout?.setOnClickListener {
+    override fun onClick(v: View) {
+        for (animal in animalsList) {
+            if (v.tag == animal.name) {
                 val action = ListFragmentDirections.actionDetail(animal)
-                Navigation.findNavController(itemView).navigate(action)
+                Navigation.findNavController(v).navigate(action)
             }
         }
     }
