@@ -118,3 +118,5 @@ data class Speed(
         }
     }
 }
+
+data class AnimalPalette(val color: Int)
