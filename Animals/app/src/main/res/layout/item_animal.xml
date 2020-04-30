@@ -9,9 +9,14 @@
         <variable
             name="animal"
             type="com.example.animals.model.Animal" />
+
+        <variable
+            name="clickListener"
+            type="com.example.animals.view.AnimalClickListener" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/animalLayout"
+        android:onClick="@{clickListener::onClick}"
+        android:tag="@{animal.name}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
