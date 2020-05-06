@@ -2,11 +2,12 @@
 
 ### This android app is made using following Android Jetpack Library components
 
-#### Navigation Graph
-#### Live Data with ViewModel
-#### DI using Dagger 2
-#### MVVM architechture
-#### RxJava
+- Navigation Graph
+- Live Data with ViewModel
+- DI using Dagger 2
+- MVVM architechture
+- Palette Library
+- RxJava
 
 ### Preview Screens
 
